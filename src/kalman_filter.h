@@ -5,23 +5,33 @@
 class KalmanFilter {
 public:
 
-  // state vector
+  // State vector
   Eigen::VectorXd x_;
 
-  // state covariance matrix
+  // State covariance matrix
   Eigen::MatrixXd P_;
 
-  // state transition matrix
+  // State transition matrix
   Eigen::MatrixXd F_;
 
-  // process covariance matrix
+  // Process covariance matrix
   Eigen::MatrixXd Q_;
 
-  // measurement matrix
+  // Measurement matrix
   Eigen::MatrixXd H_;
 
-  // measurement covariance matrix
+  // Measurement covariance matrix
   Eigen::MatrixXd R_;
+
+  // Measurement vector
+  Eigen::VectorXd y_;
+
+  // Identity matrix
+  Eigen::MatrixXd I_;
+
+  // Kalman gain matrix
+  Eigen::MatrixXd K_;
+
 
   /**
    * Constructor

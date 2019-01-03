@@ -20,6 +20,12 @@ public:
   virtual ~Tools();
 
   /**
+  * A helper method to convert radar measurements from polar to cartersian coordinates
+  */
+
+  void convertPolarToCart(double &px, double &py);
+
+  /**
   * A helper method to calculate RMSE.
   */
   VectorXd CalculateRMSE(const vector<VectorXd> &estimations, const vector<VectorXd> &ground_truth);

@@ -1,5 +1,5 @@
 # Extended Kalman Filter Project
-Self-Driving Car Engineer Nanodegree Program
+## Part of the Self-Driving Car Engineer Nanodegree Program
 
 Given a provide framework, an Extended Kalman Filter (EKF) was developed in order to estimate position and velocity from noisy lidar and radar measurements. The filter is able to use the various types of measurements interchangeably and to effective provide for sensor fusion.
 

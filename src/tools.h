@@ -20,6 +20,12 @@ public:
   virtual ~Tools();
 
   /**
+  * A helper method to convert cartesian predictions to the polar measurement space
+  */
+
+  VectorXd radarMeasFunc(VectorXd x);
+
+  /**
   * A helper method to convert radar measurements from polar to cartersian coordinates
   */
 

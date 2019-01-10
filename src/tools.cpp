@@ -8,6 +8,28 @@ using std::vector;
 Tools::Tools() {}
 Tools::~Tools() {}
 
+// h function for mapping cartesian coordinates to polar
+
+VectorXd Tools::radarMeasFunc(VectorXd x)
+{
+
+  VectorXd polarVals(3);
+
+  double px = x(0);
+  double py = x(1);
+  double vx = x(2);
+  double vy = x(3);
+
+  double rho_f = sqrt(pow(px,2)+pow(py,2));
+  double phi_f = atan2(py,px);
+  double rho_dot_f = (px*vx+py*vy)/sqrt(pow(px,2)+pow(py,2));
+
+  polarVals << rho_f, phi_f, rho_dot_f;
+
+  return polarVals;
+
+}
+
 // Convert polar to cartesian coordinates
 
 void Tools::convertPolarToCart(double &px, double &py)
@@ -91,6 +113,8 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state)
   float c1 = px*px+py*py;
   float c2 = sqrt(c1);
   float c3 = (c1*c2);
+
+  //cout << "c1: " << c1 << endl;
 
   //check division by zero
   if(fabs(c1) < 0.0001){

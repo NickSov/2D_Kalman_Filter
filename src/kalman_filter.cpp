@@ -1,4 +1,7 @@
 #include "kalman_filter.h"
+#include "tools.h"
+#include <iostream>
+#include <math.h>
 
 
 using Eigen::MatrixXd;
@@ -31,6 +34,7 @@ void KalmanFilter::Predict()
 
 void KalmanFilter::Update(const VectorXd &z)
 {
+
   // Measurement residual (innovation)
   VectorXd y_ = z - (H_ * x_);
 
@@ -42,7 +46,7 @@ void KalmanFilter::Update(const VectorXd &z)
 
   // Update the state vector and the covariance matrix
 
-  x_ = x_ + K_* y_; // update the estimate by weighting via the Kalman gain
+   x_ = x_ + K_* y_; // update the estimate by weighting via the Kalman gain
   long x_size = x_.size();
   MatrixXd I_ = MatrixXd::Identity(x_size, x_size);
   P_ = (I_ - K_ * H_)*P_;
@@ -52,12 +56,23 @@ void KalmanFilter::Update(const VectorXd &z)
 void KalmanFilter::UpdateEKF(const VectorXd &z)
 {
 
-  // check for division by zeros
+  // use the h function to map predicted position and speed to polar coordinates
 
-  // limit angles
+  VectorXd h_vector(4);
 
-  // Measurement input
-  y_ = z - H_;
+  h_vector = toolsKalman.radarMeasFunc(x_);
+  y_ = z - h_vector;
+
+  // normalize phi in the measurement vector
+
+  if(y_(1) < -3.14159)
+    {
+        y_(1) += 2.0 * 3.14159;
+    }
+  else if (y_(1) > 3.14159)
+    {
+        y_(1) -= 2 * 3.14159;
+    }
 
   // Calculate the Kalman gain
   MatrixXd S = H_ * P_ * H_.transpose() + R_;
@@ -69,6 +84,5 @@ void KalmanFilter::UpdateEKF(const VectorXd &z)
   long x_size = x_.size();
   MatrixXd I_ = MatrixXd::Identity(x_size, x_size);
   P_ = (I_ - K_ * H_)*P_;
-
 
 }
